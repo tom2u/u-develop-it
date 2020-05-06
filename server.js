@@ -38,9 +38,9 @@ const db = new sqlite3.Database("./db/election.db", (err) => {
 //   });
 // });
 
-// Get single candidate
+// // Get single candidate
 app.get("/api/candidate/:id", (req, res) => {
-  const sql = `SELECT * FROM candidates 
+  const sql = `SELECT * FROM candidates
                WHERE id = ?`;
   const params = [req.params.id];
   db.get(sql, params, (err, row) => {
@@ -56,25 +56,22 @@ app.get("/api/candidate/:id", (req, res) => {
   });
 });
 
-// // Delete a candidate
-// db.run(`DELETE FROM candidates WHERE id = ?`, 1, function (err, result) {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(result, this, this.changes);
-// });
+// Delete a candidate
+app.delete("/api/candidate/:id", (req, res) => {
+  const sql = `DELETE FROM candidates WHERE id = ?`;
+  const params = [req.params.id];
+  db.run(sql, params, function (err, result) {
+    if (err) {
+      res.status(400).json({ error: res.message });
+      return;
+    }
 
-// // Create a candidate
-// const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected)
-//               VALUES (?,?,?,?)`;
-// const params = [1, "Ronald", "Firbank", 1];
-// // ES5 function, not arrow function, to use this
-// db.run(sql, params, function (err, result) {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(result, this.lastID);
-// });
+    res.json({
+      message: "successfully deleted",
+      changes: this.changes,
+    });
+  });
+});
 
 // Default response for any other request(Not Found) Catch all
 app.use((req, res) => {
