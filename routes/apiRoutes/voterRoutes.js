@@ -7,9 +7,9 @@ const inputCheck = require("../../utils/inputCheck");
 // router.use(bodyParser.json());
 
 // parse incoming string or array data
-router.use(express.urlencoded({ extended: true }));
+//router.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
-router.use(express.json());
+//router.use(express.json());
 
 // Get all voters alphabetized by last name
 router.get("/voters", (req, res) => {
